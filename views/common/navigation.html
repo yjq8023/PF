@@ -1,0 +1,61 @@
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="navCtrl as nav" data-ng-init="nav.navInit()" >
+    <div class="sidebar-collapse" >
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="profile-element" uib-dropdown>
+                    <a uib-dropdown-toggle href>
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold">{{main.user.name}}</strong>
+                             </span>
+                                <span class="text-muted text-xs block">修改信息<b class="caret"></b></span>
+                            </span>
+                    </a>
+                    <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
+                        <li><a href="">修改名称</a></li>
+                        <li><a href="">修改密码</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    {{main.user.name_small}}
+                </div>
+            </li>
+            <li class="clearfix">
+                <span colse-nav></span>
+            </li>
+            <li ui-sref-active="active" ng-repeat="item in nav.navList track by $index" >
+                <a ui-sref="{{item.url}}">
+                    <i class="fa {{item.icon}}"></i>
+                    <span class="nav-label">{{item.title}}</span>
+                    <span ng-if="item.Secondary != null" class="fa arrow"></span>
+                </a>
+                <i  ng-if="item.Secondary != null" id="sasa">
+
+                </i>
+                <ul class="nav nav-second-level collapse" style="height: 0px;">
+                    <li ui-sref-active="active" ng-repeat="zitem in item.Secondary track by $index"><a ui-sref="{{zitem.url}}">{{zitem.name}}</a></li>
+                </ul>
+
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<script>
+        //导航
+        $('#side-menu').on('click','i',function(){
+            $(this).parent().toggleClass('active')
+            $(this).next().toggleClass('in')
+        })
+        $('#side-menu').on('click','a',function(){
+            setTimeout(function(){
+                if($('#sasa').parent().hasClass('active')){
+                    $('#sasa').next().addClass('in')
+                }else{
+                    $('#sasa').next().removeClass('in')
+                }
+            },300)
+
+        })
+
+</script>

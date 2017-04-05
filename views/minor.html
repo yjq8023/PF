@@ -1,0 +1,43 @@
+<div class="col-lg-12">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>车道信息</h5>
+            <div ibox-tools></div>
+        </div>
+        <div class="ibox-content">
+            <table class="table connection">
+                <thead>
+                <tr>
+                    <th>LaneID</th>
+                    <th>LaneName</th>
+                    <th>Direction</th>
+                    <th>Connection ID</th>
+                    <th>UpdateTIme</th>
+                    <th>More</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr  ng-repeat="item in main.StatusList track by $index">
+                    <td>{{item.message_content.lane_code}}</td>
+                    <td>{{item.message_content.lane_name }}</td>
+                    <td>{{item.message_content.direction }}</td>
+                    <td>{{item.connection_id  }}</td>
+                    <td>{{item.update_time  }}</td>
+                    <td><a href="#">查看详情</a></td>
+                </tr>
+                <!--<tr  ng-repeat="item in main.GetUserListOut track by $index">-->
+                    <!--<td>{{item.MessageContent.LaneID }}</td>-->
+                    <!--<td>{{item.MessageContent.LaneName }}</td>-->
+                    <!--<td>{{item.MessageContent.Direction }}</td>-->
+                    <!--<td>{{item.MessageContent.ConnectionID  }}</td>-->
+                    <!--<td>{{item.MessageContent.UpdateTime  }}</td>-->
+                    <!--<td><a href="#">查看详情</a></td>-->
+                <!--</tr>-->
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,219 @@
+<div class="row" style="overflow-x: auto;overflow-y: hidden;">
+<div class="monitorBox" ng-controller="laneLeft as Left" style="overflow: auto">
+    <div class="codiv" style="padding: 2px 7px">
+        <div class="ibox border-bottom m-b-none">
+            <div class="ibox-title">
+                <h5>搜索栏</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12"  style="padding: 0 0px 0 7px">
+        <!-- 进闸-->
+        <div class="col-sm-3" style="padding:0px 7px 3px 0px!important;" ng-repeat="item in main.StatusList track by $index" >
+            <!-- 头部车道信息-->
+            <div class="ibox-title" style="overflow: hidden;height: 40px">
+                <h5 style="font-size: 18px;font-weight: 700;">
+                    <i class="fa fa-truck" ng-class={corgreen:item.message_content.has_truck}></i>
+                    {{item.message_content.lane_name }}
+                </h5>
+                <span class="label" ng-class="{'label-primary':item.message_content.lane_type=='重车进闸'||item.message_content.lane_type=='空车进闸','label-warning':item.message_content.lane_type=='重车出闸'||item.message_content.lane_type=='空车出闸'}" data-toggle="modal" data-target="#myModal{{item.message_content.lane_name }}" ng-click="MelaneType=item.message_content.lane_type">{{item.message_content.lane_type}}</span>
+                <!-- 车道类型弹出窗口-->
+                <div class="modal inmodal" id="myModal{{item.message_content.lane_name }}" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content animated fadeIn">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <form method="get" class="form-horizontal">
+                                    <div class="ngForm">
+                                        <div class="i-checks">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" value="重车进闸" ng-model="MelaneType">
+                                                    重车进闸
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" value="空车进闸" ng-model="MelaneType">
+                                                    空车进闸
+                                                </label>
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" value="车道停用" ng-model="MelaneType">
+                                                    车道停用
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="Left.changeQueue(item,{lane_type:MelaneType})">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 停留时间-->
+                <span class="label pull-right" ng-class="{'label-danger':(main.nowTime | timeFilter:item.queue.start_time).TimeDifference>=120}">
+                    <span ng-if="(main.nowTime | timeFilter:item.queue.start_time).T">
+                        {{(main.nowTime | timeFilter:item.queue.start_time).T}}:</span>{{(main.nowTime | timeFilter:item.queue.start_time).M+':'+(main.nowTime | timeFilter:item.queue.start_time).S}}
+                </span>
+                <!-- 抬杆落杆按钮-->
+                <span class="gantoggle">
+                     <!--<input type="checkbox" id="chk" name="chk">-->
+                    <span class="gantoggle">
+                     <label class="chkbox" ng-class={on:item.message_content.barrier=='up'}>
+                         <span class="yes">抬杆</span>
+                         <span class="no">落杆</span>
+                         <span class="toggle"></span>
+                     </label><input type="checkbox"  name="chk" class="replaced">
+                </span>
+                </span>
+
+
+            </div>
+            <!-- 主体车俩信息-->
+            <div class="ibox-content clearfix"  ng-class="{'cover':item.message_content.lane_type=='车道停用'}">
+                <!-- 车辆详情-->
+                <div class="">
+                    <div class="" style=";line-height: 19px;font-size: 12px">
+                        <strong>识别车牌：</strong> <span ng-class="{'cl-red':item.queue.ocr_trunk_no!=item.queue.rfid_trunk_no}">{{item.queue.ocr_trunk_no}}</span>
+                       <!-- 车牌图标，车头图标-->
+                        <span ng-if="item.queue.ocr_trunk_no">
+                            <a ng-click="item.Imgifshow=(!item.Imgifshow)" class="m-l-sm fa fa-picture-o" style="opacity: 0.6;transform: scale(0.85);color: #444"></a><a class="fa fa-car" style="opacity: 0.6;transform: scale(0.85,0.71);margin-left: 3px;color: #444"></a>
+                        </span><br>
+                        <strong>读卡车牌：</strong> {{item.queue.rfid_trunk_no}}<br>
+                        <strong>地磅读数：</strong> <span style="color: #1ab394;font-weight: 600;">{{item.queue.total_weight}}<span ng-if="item.queue.weight_bridge">kg</span></span><br>
+                        <strong>集装箱号1：</strong> {{item.queue.containers[0].container_no}} <span ng-if="item.queue.containers[0].container_no">/</span> {{item.queue.containers[0].iso_code}}<span ng-if="!(item.queue.containers[0].container_no)">-</span><br>
+                        <strong>集装箱号2：</strong> {{item.queue.containers[1].container_no}} <span ng-if="item.queue.containers[1].container_no">/</span> {{item.queue.containers[1].iso_code}}<span ng-if="!(item.queue.containers[1].container_no)">-</span><br>
+                        <strong>当前进度：</strong> <span ng-bind="Left.schedule(item.queue.processes).display"></span>
+                        <!-- 进度条-->
+                        <div class="clearfix" style="width:100%;margin-top: 2px;height: 20px;">
+                            <div class="progress progress-mini">
+                                <div style="width: {{Left.schedule(item.queue.processes).num}}%;" class="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 车牌图片-->
+                <div class="" style="width: 131px;position: absolute;right: 15px;top: 70px;" ng-if="item.Imgifshow">
+                    <img src="img/carnum.png" style="width: 100%" alt=""/>
+                </div>
+                <!-- 按钮-->
+                <div class="text-left monitorBtn" >
+                    <button type="button" class="btn btn-default">作业明细</button>
+                    <button type="button" class="btn btn-default">历史清单</button>
+                    <button type="button" class="btn btn-default">补打小票</button>
+                    <button type="button" class="btn btn-default">查看报文</button>
+                </div>
+            </div>
+
+        </div>
+        <!-- 出闸-->
+        <!--<div class="col-sm-3" style="padding: 4px!important;" ng-repeat="item in main.GetUserListOut track by $index">-->
+            <!--&lt;!&ndash; 头部车道信息&ndash;&gt;-->
+            <!--<div class="ibox-title" style="overflow: hidden;height: 40px">-->
+                <!--<h5 style="font-size: 18px;font-weight: 700;">-->
+                    <!--<i class="fa fa-truck" ng-class={corgreen:item.queue.ocr_trunk_no}></i>-->
+                    <!--{{item.lane_name }}-->
+                <!--</h5>-->
+                <!--<span class="label" ng-class="{'label-warning':item.queue.lane_type!='车道停用'}" data-toggle="modal" data-target="#myModal{{item.lane_name }}" ng-click="MelaneType=item.queue.lane_type">{{item.queue.lane_type}}</span>-->
+                <!--&lt;!&ndash; 车道类型弹出窗口&ndash;&gt;-->
+                <!--<div class="modal inmodal" id="myModal{{item.lane_name }}" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">-->
+                    <!--<div class="modal-dialog">-->
+                        <!--<div class="modal-content animated fadeIn">-->
+                            <!--<div class="modal-body">-->
+                                <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>-->
+                                <!--<form method="get" class="form-horizontal">-->
+                                    <!--<div class="ngForm">-->
+                                        <!--<div class="i-checks">-->
+                                            <!--<div class="radio">-->
+                                                <!--<label>-->
+                                                    <!--<input type="radio" name="optionsRadios" value="重车进闸" ng-model="MelaneType">-->
+                                                    <!--重车出闸-->
+                                                <!--</label>-->
+                                                <!--<label>-->
+                                                    <!--<input type="radio" name="optionsRadios" value="空车进闸" ng-model="MelaneType">-->
+                                                    <!--空车出闸-->
+                                                <!--</label>-->
+                                                <!--<label>-->
+                                                    <!--<input type="radio" name="optionsRadios" value="车道停用" ng-model="MelaneType">-->
+                                                    <!--车道停用-->
+                                                <!--</label>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</form>-->
+                            <!--</div>-->
+                            <!--<div class="modal-footer">-->
+                                <!--<button type="button" class="btn btn-white" data-dismiss="modal">取消</button>-->
+                                <!--<button type="button" class="btn btn-primary"  data-dismiss="modal" ng-click="main.change(item,{lane_type:MelaneType})">确定</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; 停留时间&ndash;&gt;-->
+                <!--<span class="label pull-right" ng-class="{'label-danger':(main.nowTime | timeFilter:item.queue.start_time).TimeDifference>=120}">-->
+                    <!--<span ng-if="(main.nowTime | timeFilter:item.queue.start_time).T">-->
+                        <!--{{(main.nowTime | timeFilter:item.queue.start_time).T}}:</span>{{(main.nowTime | timeFilter:item.queue.start_time).M+':'+(main.nowTime | timeFilter:item.queue.start_time).S}}-->
+                <!--</span>-->
+                <!--&lt;!&ndash; 抬杆落杆按钮&ndash;&gt;-->
+                <!--<span class="gantoggle">-->
+                     <!--&lt;!&ndash;<input type="checkbox" id="chk" name="chk">&ndash;&gt;-->
+                    <!--<span class="gantoggle">-->
+                     <!--<label  class="chkbox" ng-class={on:item.queue.barrier=='up'}>-->
+                         <!--<span class="yes">抬杆</span>-->
+                         <!--<span class="no">落杆</span>-->
+                         <!--<span class="toggle"></span>-->
+                     <!--</label><input type="checkbox"  name="chk" class="replaced">-->
+                <!--</span>-->
+                <!--</span>-->
+
+            <!--</div>-->
+            <!--&lt;!&ndash; 主体车俩信息&ndash;&gt;-->
+            <!--<div class="ibox-content clearfix "  ng-class="{'cover':item.queue.lane_type=='车道停用'}">-->
+                <!--&lt;!&ndash; 车俩信息&ndash;&gt;-->
+                <!--<div class="">-->
+                    <!--<div class="" style=";line-height: 19px;font-size: 12px">-->
+                        <!--<strong>识别车牌：</strong> <span ng-class="{'cl-red':item.queue.ocr_trunk_no!=item.queue.rfid_trunk_no}">{{item.queue.ocr_trunk_no}}</span>-->
+                        <!--<span ng-if="item.queue.ocr_trunk_no">-->
+                        <!--<a ng-click="item.Imgifshow=(!item.Imgifshow)" class="m-l-sm fa fa-picture-o" style="opacity: 0.6;transform: scale(0.85);color: #444"></a><a class="fa fa-car" style="opacity: 0.6;transform: scale(0.85,0.71);margin-left: 1px;color: #444"></a>-->
+                        <!--</span><br>-->
+                        <!--<strong>读卡车牌：</strong> {{item.queue.rfid_trunk_no}}<br>-->
+                        <!--<strong>地磅读数：</strong> <span style="color: #1ab394;font-weight: 600;">{{item.queue.weight_bridge}}<span ng-if="item.queue.weight_bridge">kg</span></span><br>-->
+                        <!--<strong>集装箱号1：</strong> {{item.queue.containers[0].container_no}} <span ng-if="item.queue.containers[0].container_no">/</span> {{item.queue.containers[0].iso_code}}<span ng-if="!(item.queue.containers[0].container_no)">-</span><br>-->
+                        <!--<strong>集装箱号2：</strong> {{item.queue.containers[1].container_no}} <span ng-if="item.queue.containers[1].container_no">/</span> {{item.queue.containers[1].iso_code}}<span ng-if="!(item.queue.containers[1].container_no)">-</span><br>-->
+                        <!--<strong>当前进度：</strong> <span ng-bind="main.schedule(item.queue.processes).display"></span>-->
+                        <!--&lt;!&ndash; 进度条&ndash;&gt;-->
+                        <!--<div class="clearfix" style="width:100%;margin-top: 2px;height: 20px;">-->
+                            <!--&lt;!&ndash;<div class="small pull-left m-r-sm" style="margin-top: -2px;"><strong>当前进度：</strong></div>&ndash;&gt;-->
+                            <!--<div class="progress progress-mini">-->
+                                <!--<div style="width: {{main.schedule(item.queue.processes).num}}%;" class="progress-bar"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                <!--</div>-->
+                <!--&lt;!&ndash; 车牌图片&ndash;&gt;-->
+                <!--<div class="" style="width: 131px;position: absolute;right: 15px;top: 70px;" ng-if="item.Imgifshow">-->
+                    <!--<img src="img/carnum.png" style="width: 100%" alt=""/>-->
+                <!--</div>-->
+                <!--&lt;!&ndash; 按钮&ndash;&gt;-->
+                <!--<div class="text-left" style="">-->
+                    <!--<button type="button" class="btn btn-default" style="width: 25%;box-sizing: border-box;float: left;">作业明细</button>-->
+                    <!--<button type="button" class="btn btn-default" style="width: 25%;box-sizing: border-box;float: left;">作业明细</button>-->
+                    <!--<button type="button" class="btn btn-default" style="width: 25%;box-sizing: border-box;float: left;">作业明细</button>-->
+                    <!--<button type="button" class="btn btn-default" style="width: 25%;box-sizing: border-box;float: left;">作业明细</button>-->
+
+                <!--</div>-->
+
+
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+</div>
+<script>
+    $('.monitorBox').on('click','.gantoggle>label',function(){
+        $(this).toggleClass('on')
+    })
+</script>

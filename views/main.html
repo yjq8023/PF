@@ -1,0 +1,46 @@
+<div class="row" ng-controller="list as list">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h5>会话缓存表</h5>
+
+                <div ibox-tools></div>
+            </div>
+            <div class="ibox-content">
+
+                <table class="table connection">
+
+                    <thead>
+                    <tr>
+                        <th>Connection</th>
+                        <th>IP Address</th>
+                        <th>Port</th>
+                        <th>Client Type</th>
+                        <th>Client Name</th>
+                        <th>Connect Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr ng-repeat="item in main.SessionList track by $index">
+                        <td>{{item.ConnectionID}}</td>
+                        <td>{{item.IPAddress}}</td>
+                        <td>{{item.Port}}</td>
+                        <td>{{item.ClientType}}</td>
+                        <td>{{item.ClientName}}</td>
+                        <td>{{item.ConnectionTime}}</td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="js/jquery.signalR-2.2.0.js"></script>-->
+<!--<script src="js/server.js"></script>-->
+<!--<script src="http://60.205.200.73/signalr/hubs"></script>-->

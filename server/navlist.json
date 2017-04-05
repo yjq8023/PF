@@ -1,0 +1,36 @@
+[
+  {
+    "title":"会话缓存",
+    "url":"index.conversation",
+    "icon":"fa-adjust"
+  },
+  {
+    "title":"日志缓存",
+    "url":"index.log",
+    "icon":"fa-bell"
+  },
+  {
+    "title":"车道缓存",
+    "url":"index.cache",
+    "icon":"fa-cog"
+  },
+  {
+    "title":"车道监控",
+    "url":"index.monitor",
+    "icon":"fa-cube"
+  },
+  {
+    "title":"车道作业",
+    "url":"index.laneright",
+    "icon":"fa-cube"
+  },
+  {
+  "title":"二级导航",
+  "url":"index.Secondary",
+  "icon":"fa-bell",
+  "Secondary":[
+    {"name":"Secondary1","url":"index.clients"},
+    {"name":"Secondary2","url":"index.Secondary.monitor"}
+  ]
+  }
+]

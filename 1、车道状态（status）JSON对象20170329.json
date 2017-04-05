@@ -1,0 +1,19 @@
+{
+   "lane_code" : "CN-XIAMEN-SXCT-0001",
+   "message_type" : "status",
+   "message_content" : {
+      "status" : {
+         "lane_code" : "CN-XIAMEN-SXCT-0001",
+         "lane_name" : "G101",
+         "country_code" : "CN",
+         "city_code" : "XIAMEN",
+         "terminal_code" : "SXCT",
+         "direction" : "In",
+         "has_truck" : true,
+         "lane_type" : "重车进闸",
+         "led_display" : "重车进闸",
+         "barrier" : "down",
+         "send_time" : "YYYY/MM/DD HH24:MM:SS"
+      }
+   }
+}
