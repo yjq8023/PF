@@ -55,7 +55,7 @@
     height: 100%;
     z-index: 999;
 }
-.monitorBox .monitorBtn button{
+.monitorBox .monitorBtn>button{
     width: 25%;
     box-sizing: border-box;
     float: left;
@@ -213,4 +213,7 @@ input[type=radio].replaced {
 }
 .carTXT table th{
     text-align: center;
+}
+.queueactive{
+    background-color: #f5f5f5!important;
 }

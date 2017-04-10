@@ -8,27 +8,61 @@
  */
 function MainCtrl($http,$scope,DataServers,$rootScope) {
     var _this=this;
-    var user={
+     this.user={
         name:'平方科技',
         name_small:'PF',
         authority:1
     }
-    this.user=user;
-    this.username='';
-    this.password='';
+    $rootScope.user=this.user;
     _this.nowTime=new Date();//同步当前时间
     setInterval(function(){
         _this.nowTime=new Date();
+        $rootScope.nowTime=new Date();
         $scope.$apply();
     },1000)
     //登录请求
     this.login=function(){
+        //$http({
+        //    method:'posh',
+        //    url:'http://10.1.1.104:8080/api/auth/token',
+        //    data:{
+        //        username:'xx',
+        //        password:'123456',
+        //        terminalId:1
+        //    }
+        //}).then(function(data){
+        //    console.log(data)
+        //},function(err){console.log(err)})
         window.location.href="index.html#/index/conversation"
     }
+    //会话，车道，作业
     DataServers.GetSessionList(_this)
     DataServers.GetStatusList(_this)
     DataServers.GetQueueList(_this)
-
+    //根据作业id查找对应数据
+    $rootScope.getQueueId=function(ID){
+        for(var i=0;i<_this.QueueList.length;i++){
+            if(_this.QueueList[i].queue_id==ID){
+                var str=JSON.stringify(_this.QueueList[i])
+                return JSON.parse(str)
+            }
+        }
+        return {}
+    }
+    this.getLog=function(){
+        console.log('11')
+        $http({
+            method:'get',
+            headers : {'time' : '05 Apr 2017 09:24:12 GMT'},
+            url:'http://139.199.225.84:17405/api/Logs',
+            params:{
+                days:2
+            }
+        }).then(
+            function(data){
+            console.log(data)
+        },function(err){console.log(err)})
+    }
     //创建与服务器连接的服务
     //$.connection.hub.url="http://139.199.225.84/signalr/hubs"
     //var proxy = $.connection.messageHub;
@@ -109,10 +143,10 @@ function list($scope){
 
 //车道监控左屏控制器
 function laneLeft($scope,DataServers){
-    console.log('server方法调用')
     var _this=this;
     //判断车辆当前进度
-    this.schedule=function(obj){
+    _this.num=10
+    _this.schedule=function(obj){
         var now={}
         obj=obj ||[]
         now.num=0
@@ -128,14 +162,54 @@ function laneLeft($scope,DataServers){
     }
     //修改车道类型
     _this.changeQueue=function(data,obj){
-        DataServers.changeQueue(data,obj)
+        DataServers.changeQueue(data,obj,'lane')
     }
 
 };
+//车道作业右屏控制器
 //列表页控制器
-function laneRight($scope){
+function laneRight($scope,DataServers,$rootScope,$window){
     var _this=this;
-
+    this.imgIf=true
+    //1.记录当前点击作业为$rootScope.currentQueue
+    //2.判断是否解锁，自己的锁跟超时锁
+    //3.
+    //点击列表事件
+    _this.setCurrentQueue=function(obj){
+        console.log('当前点击：'+obj.lane_name)
+        //清楚超时锁
+        for(var i=0;i<$rootScope.QueueList.length;i++){
+            if((new Date().getTime()-new Date($rootScope.QueueList[i].lock_time).getTime())/60000>1){
+                if($rootScope.QueueList[i].is_lock===true){
+                    console.log('sss：'+$rootScope.QueueList[i].is_lock)
+                    console.log('超时锁定，清掉'+(new Date().getTime()-new Date($rootScope.QueueList[i].lock_time).getTime())/60000)
+                    DataServers.changeQueue($rootScope.QueueList[i],{user:'',is_lock:false,lock_time:''},'queue')
+                }
+            }
+        }
+        //1.根据ID解锁
+        if(obj.queue_id!=$window.localStorage.currentQueueID && $rootScope.getQueueId($window.localStorage.currentQueueID).is_lock===true){
+            console.log($rootScope.getQueueId($window.localStorage.currentQueueID).lane_name+'请求解锁')
+            DataServers.changeQueue($rootScope.getQueueId($window.localStorage.currentQueueID),{user:'',is_lock:false,lock_time:''},'queue');
+        }
+        //2.上锁，记录锁的ID
+        if(obj.is_lock===false){
+            console.log(obj.lane_name+'请求上锁')
+            DataServers.changeQueue(obj,{user:$rootScope.user.name,is_lock:true,lock_time:new Date().Format("yyyy/MM/dd hh:mm:ss")},'queue');
+            $window.localStorage.currentQueueID=obj.queue_id
+        }
+        //3.渲染到表单里
+        //渲染放入作业更新时
+        var str=JSON.stringify(obj)
+        var Obj=JSON.parse(str)
+        $rootScope.currentQueue=Obj;
+        //DataServers.changeQueue(obj,{user:'',is_lock:false,lock_time:''},'queue');
+    }
+    //提交修改数据
+    _this.changeQueue=function(data){
+        //DataServers.changeQueue(data,{is_lock:true},'queue')
+        DataServers.changeQueue(data,{user:$rootScope.user.name,is_lock:null,lock_time:new Date().Format("yyyy/MM/dd hh:mm:ss")},'queue');
+    }
 };
 angular
     .module('inspinia')

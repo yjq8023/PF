@@ -1,8 +1,8 @@
-<div class="row lane-right" ng-controller="laneRight">
+<div class="row lane-right" ng-controller="laneRight as Right">
     <div class="codiv" style="padding: 6px 10px">
         <div class="ibox border-bottom m-b-none">
             <div class="ibox-title">
-                <h5>搜索栏</h5>
+                <h5>收缩蓝</h5>
             </div>
         </div>
     </div>
@@ -13,7 +13,7 @@
                 <div  style="height: 350px;width: 102%;">
                 <div full-scroll="" style="width: 100%;margin: 0;padding: 0;margin-top: -1px;">
                     <div class="carTXT" style="width: 100%;padding-right: 2%">
-                    <table class="table table-hover issue-tracker m-b-none text-center">
+                    <table class="table table-hover issue-tracker m-b-none text-center queue">
                         <thead>
                         <th>锁定</th>
                         <th>操作员</th>
@@ -26,265 +26,38 @@
                         <th>创建时间</th>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr ng-repeat="item in main.QueueList" ng-click="Right.setCurrentQueue(item)" ng-class="{queueactive:item.user==main.user.name}">
                             <td>
-                                <span class="label label-primary"><i class="fa fa-unlock-alt"></i></span>
+                                <!-- 创建阶段-->
+                                <span class="label" style="padding: 3px 7px" ng-if="item.is_lock==null"><i class="fa fa-refresh"></i></span>
+                                <!-- 可操作阶段-->
+                                <span class="label label-primary" ng-if="item.is_lock===false"><i class="fa fa-unlock-alt"></i></span>
+                                <!-- 锁定状态-->
+                                <span class="label label-danger" ng-if="item.is_lock===true"><i class="fa fa-lock"></i></span>
                             </td>
                             <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-danger"><i class="fa fa-lock"></i></span>
-                            </td>
-                            <td>
-                                OP01
+                                {{item.user}}
                             </td>
                             <td>
                                 进闸
                             </td>
                             <td>
-                                GI01
+                                {{item.lane_name}}
                             </td>
                             <td>
-                                125850
+                                {{item.ic_card_no}}
                             </td>
                             <td>
-                                粤A.8888
+                                {{item.truck_no}}
                             </td>
                             <td>
-                                ABCD1524569
+                                {{item.containers[0].container_no}}
                             </td>
                             <td>
-                                ABCD1594568
+                                {{item.containers[1].container_no}}
                             </td>
                             <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label" style="padding: 3px 7px"><i class="fa fa-refresh"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-primary"><i class="fa fa-unlock-alt"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-danger"><i class="fa fa-lock"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label" style="padding: 3px 7px"><i class="fa fa-refresh"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-primary"><i class="fa fa-unlock-alt"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label label-danger"><i class="fa fa-lock"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="label" style="padding: 3px 7px"><i class="fa fa-refresh"></i></span>
-                            </td>
-                            <td>
-                                OP01
-                            </td>
-                            <td>
-                                进闸
-                            </td>
-                            <td>
-                                GI01
-                            </td>
-                            <td>
-                                125850
-                            </td>
-                            <td>
-                                粤A.8888
-                            </td>
-                            <td>
-                                ABCD1524569
-                            </td>
-                            <td>
-                                ABCD1594568
-                            </td>
-                            <td>
-                                2017/03/01
+                                {{item.start_time}}
                             </td>
                         </tr>
                         </tbody>
@@ -297,32 +70,31 @@
     </div>
     <div class="col-sm-6 lane-form" style="padding-left: 0px">
         <div class="ibox">
-            <div class="ibox-title" style="vertical-align: bottom">
-                <b>当前车道：</b>GI01
-                <p class="pull-right"><b>操作员：</b>YJQ ; &nbsp;&nbsp;
+            <div class="ibox-title" style="">
+                <b>当前车道：</b>{{currentQueue.lane_name}}
+                <p class="pull-right"><b>操作员：</b>{{currentQueue.user}} ; &nbsp;&nbsp;
                     <b>锁定时间：</b>
-                    <span class="label pull-right" ng-class="{'label-danger':(main.nowTime | timeFilter:item.queue.start_time).TimeDifference>=120}">
-                    <span ng-if="(main.nowTime | timeFilter:item.queue.start_time).T">
-                        {{(main.nowTime | timeFilter:item.queue.start_time).T}}:</span>{{(main.nowTime | timeFilter:item.queue.start_time).M+':'+(main.nowTime | timeFilter:item.queue.start_time).S}}
+                    <span class="label pull-right" ng-class="{'label-danger':(main.nowTime | timeFilter:currentQueue.lock_time).TimeDifference>=120}">
+                    <span ng-if="(main.nowTime | timeFilter:currentQueue.lock_time).T">
+                        {{(main.nowTime | timeFilter:currentQueue.lock_time).T}}:</span>{{(main.nowTime | timeFilter:currentQueue.lock_time).M+':'+(main.nowTime | timeFilter:currentQueue.lock_time).S}}
                 </span>
                 </p>
             </div>
-            <form role="form">
-                <div class="ibox-content clearfix" style="height: 335px;">
+            <div class="ibox-content clearfix" style="height: 335px;border: 0px;">
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="form-group"><label>识别车牌</label> <input type="text" class="form-control"></div>
-                            <div class="form-group"><label>IC卡号</label> <input type="text" class="form-control"></div>
+                            <div class="form-group"><label>识别车牌</label> <input type="text" class="form-control" ng-model="currentQueue.ocr_truck_no"></div>
+                            <div class="form-group"><label>IC卡号</label> <input type="text" class="form-control" ng-model="currentQueue.ic_card_no"></div>
                             <div class="form-group">
                                 <label>前箱号</label>
-                                <input type="text" placeholder="" class="form-control">
+                                <input type="text" placeholder="" class="form-control" ng-model="currentQueue.containers[0].container_no">
 
                             </div>
                             <div class="Formbtn">
                                 <label> 残损信息</label><br/>
                                 <button class="btn btn-outline btn-danger btn-w-m" type="button">记录
-                                    <span class="badge badge-danger" type="button" style="position: absolute;right: -6px;top: -3px;transform: scale(0.45);font-size: 30px;line-height: 23px;background-color: #ec4758;color: white;">
-                                      2
+                                    <span class="badge badge-danger" ng-if="currentQueue.containers[0].damages.length>0" type="button" style="position: absolute;right: 2px;top: -3px;transform: scale(0.45);font-size: 30px;line-height: 23px;background-color: #ec4758;color: white;">
+                                      {{currentQueue.containers[0].damages.length}}
                                     </span>
                                 </button>
                                 <button class="btn btn-outline btn-success" type="button">新增</button>
@@ -330,59 +102,67 @@
 
                         </div>
                         <div class="col-sm-6">
-                            <div class="form-group"><label>读卡车牌号</label> <input type="text" class="form-control"></div>
-                            <div class="form-group"><label>总重量</label> <input type="text" class="form-control"></div>
+                            <div class="form-group"><label>读卡车牌号</label> <input type="text" class="form-control" ng-model="currentQueue.rfid_truck_no"></div>
+                            <div class="form-group"><label>总重量(kg)</label> <input type="text" class="form-control" ng-model="currentQueue.total_weight"></div>
                             <div class="form-group">
                                 <label>后箱号</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" ng-model="currentQueue.containers[1].container_no">
                             </div>
                             <div class="Formbtn">
                                 <label> 残损信息</label><br/>
                                 <button class="btn btn-outline btn-danger btn-w-m" type="button">记录
-                                    <span class="badge badge-danger" type="button" style="position: absolute;right: -6px;top: -3px;transform: scale(0.45);font-size: 30px;line-height: 23px;background-color: #ec4758;color: white;">
-                                      3
+                                    <span class="badge badge-danger" ng-if="currentQueue.containers[1].damages.length>0" type="button" style="position: absolute;right: 2px;top: -3px;transform: scale(0.45);font-size: 30px;line-height: 23px;background-color: #ec4758;color: white;">
+                                     {{currentQueue.containers[1].damages.length || 0}}
                                     </span>
                                 </button>
                                 <button class="btn btn-outline btn-success" type="button">新增</button>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <button type="button" class="btn btn-w-m btn-success" style="width: 100%;">提交</button>
+                            <button ng-if="currentQueue.user==user.name" type="button" class="btn btn-w-m btn-success" style="width: 100%;" ng-click="Right.changeQueue(currentQueue)">提交</button>
+                            <button ng-if="currentQueue.user!=user.name" type="button" class="btn btn-w-m" style="width: 100%;">提交</button>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
     <!-- 图片-->
-    <div class="col-sm-12 carimg" style="height: 440px;">
+    <div class="col-sm-12 carimg" style="height: 440px;" ng-if="Right.imgIf">
         <div class="col-sm-6" style="padding-right: 10px">
-            <div class="img-box carLeft" style="background-image: url('./img/left.jpg');">
-                <!--<img src="./img/left.jpg" alt=""/>-->
+            <div ng-dblclick="Right.imgIf=!Right.imgIf;Right.url='./img/left.jpg'" class="img-box carLeft" style="background-image: url('./img/left.jpg');">
+                <!--<img src="./img/U1184.png" alt=""/>-->
             </div>
         </div>
         <div class="col-sm-6">
             <div class="img-boxtree clearfix">
-                <div class="col-sm-4" style="background-image: url('./img/in.jpg');">
-                    <!--<img src="./img/in.jpg" alt=""/>-->
+                <div class="col-sm-4" style="background-image: url('./img/in.jpg');" ng-dblclick="Right.imgIf=!Right.imgIf;Right.url='./img/in.jpg'">
+                    <!--<img src="./img/U1190.png" alt=""/>-->
                 </div>
                 <div class="col-sm-4"  style="background-image: url('./img/in.jpg')">
-                    <!--<img src="./img/in.jpg" alt=""/>-->
+                    <!--<img src="./img/U1192.png" alt=""/>-->
                 </div>
                 <div class="col-sm-4"  style="background-image: url('./img/in.jpg');">
-                    <!--<img src="./img/in.jpg" alt=""/>-->
+                    <!--<img src="./img/U1194.png" alt=""/>-->
                 </div>
             </div>
         </div>
         <div class="col-sm-6 " style="padding:0px 10px 0 0">
             <div class="img-box carRight" style="background-image: url('./img/right.jpg');">
-                <!--<img src="./img/right.jpg" alt=""/>-->
+                <!--<img src="./img/U1186.png" alt=""/>-->
             </div>
         </div>
         <div class="col-sm-6">
             <div class="img-box" style="background-image: url('./img/top.jpg');">
-                <!--<img src="./img/top.jpg" alt=""/>-->
+                <!--<img src="./img/U1188.png" alt=""/>-->
             </div>
         </div>
     </div>
+    <div class="" style="height: 440px;width: 98%;margin-left: 1%; background-image: url({{Right.url}});background-repeat: no-repeat;background-size: auto 92%;background-position:center center;" ng-if="!Right.imgIf" ng-click="Right.imgIf=!Right.imgIf">
+
+    </div>
 </div>
+<script>
+    $('.queue').on('click','tr',function(){
+        $(this).addClass('queueactive').siblings().removeClass('queueactive')
+    })
+</script>

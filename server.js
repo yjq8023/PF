@@ -31,7 +31,7 @@ server.on('request',function(request,response){
     //    })
     //}
     response.writeHead(302,{
-                location:'http://10.1.1.103:8088/'
+                location:'http://10.1.1.103:8088/index.html'
             })
     response.end();
     //var urlPath = url.parse(req.url).pathname;

@@ -8,6 +8,7 @@ app.directive('search',function(){
         restrict:"AECM"
     }
 });
+//滚动条
 app.directive('fullScroll',function fullScroll($timeout){
     return {
         restrict: 'A',
@@ -22,3 +23,4 @@ app.directive('fullScroll',function fullScroll($timeout){
         }
     };
 })
+

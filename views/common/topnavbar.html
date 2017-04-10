@@ -2,7 +2,7 @@
     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0;">
         <div class="navbar-header" style="height: 60px;line-height: 60px;margin: 0 10px;">
             <div class="btn-group">
-                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false" style="padding: 6px 15px">厦门码头 <span class="caret"></span></button>
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false" style="padding: 6px 15px">海沧港区 - 嵩屿码头 <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="#">Action</a></li>
                     <li><a href="#">Another action</a></li>
@@ -13,7 +13,16 @@
             </div>
         </div>
         <div class="pull-right" style="height: 60px;line-height: 60px;margin: 0 10px;">
+            <!--<button ng-click="main.getLog()">test</button>-->
+            <div class="btn-group">
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" aria-expanded="false" style="padding: 6px 15px">切换用户 <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li ng-click="main.user.name='平方科技'"><a href="javascript://">平方科技</a></li>
+                    <li ng-click="main.user.name='广州平方'"><a href="javascript://">广州平方</a></li>
+                </ul>
+            </div>
             <strong>用户：</strong>{{main.user.name}}
+
         </div>
     </nav>
 </div>
